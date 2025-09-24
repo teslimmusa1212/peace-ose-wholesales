@@ -1,0 +1,13 @@
+Customer Address: number 5 gregosa avenue
+Order Details:
+SPAR Sunflower Oil (5L): 12
+
+Customer Address: ize iyamu drive
+Order Details:
+Nigerian Spices: 16
+
+Customer Address: 5 gregosa avenue
+Google Maps Link: https://www.google.com/maps/search/?api=1&query=5%20gregosa%20avenue
+Order Details:
+Mama's Choice Rice: 1
+
