@@ -17,21 +17,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.querySelector('.order-submit-form');
     const statusMessage = document.getElementById('status-message');
     
-    // CRITICAL: YOUR WHATSAPP NUMBER (Used the number from your index.html)
+    // CRITICAL: YOUR WHATSAPP NUMBER
     const whatsappNumber = '2348078586366'; 
 
-    // **CRITICAL FIX: UPDATED BANK DETAILS**
+    // CRITICAL: FINAL UPDATED BANK DETAILS
     const bankDetails = "*PAYMENT DETAILS:* Please make a bank transfer to confirm your order.%0A*Bank Name:* Zenith Bank%0A*Account Name:* AHMED MUMA S GLOBAL INVESTMENT LTD%0A*Account Number:* 1040990755%0A%0A";
 
     form.addEventListener('submit', function(e) {
         e.preventDefault();
 
-        // 1. Get Customer Details
+        // 1. Get Customer Details (NOW INCLUDING PHONE NUMBER)
         const customerName = document.getElementById('customer-name').value.trim();
+        const customerPhone = document.getElementById('customer-phone').value.trim(); // Captures the customer phone
         const customerAddress = document.getElementById('customer-address').value.trim();
 
-        if (!customerName || !customerAddress) {
-            statusMessage.textContent = 'Please enter your Name and Address to submit the order.';
+        if (!customerName || !customerPhone || !customerAddress) {
+            statusMessage.textContent = 'Please fill in your Name, Phone Number, and Address to submit the order.';
             statusMessage.style.color = 'red';
             return;
         }
@@ -56,12 +57,13 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // 3. Assemble the WhatsApp Message
+        // 3. Assemble the WhatsApp Message (NOW INCLUDING PHONE NUMBER)
         let message = `*NEW WEBSITE ORDER*%0A%0A`;
         message += `Name: ${customerName}%0A`;
+        message += `Phone: ${customerPhone}%0A`; // Included in the message
         message += `Address: ${customerAddress}%0A%0A`;
         message += `*Order Details:*%0A${orderDetails}%0A`;
-        message += bankDetails; // Insert the correct bank details here
+        message += bankDetails; 
         message += `Please confirm the total cost and delivery details.`;
 
         // Encode the message to ensure all characters are URL safe
