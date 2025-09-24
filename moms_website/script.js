@@ -26,9 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
     form.addEventListener('submit', function(e) {
         e.preventDefault();
 
-        // 1. Get Customer Details (NOW INCLUDING PHONE NUMBER)
+        // 1. Get Customer Details
         const customerName = document.getElementById('customer-name').value.trim();
-        const customerPhone = document.getElementById('customer-phone').value.trim(); // Captures the customer phone
+        const customerPhone = document.getElementById('customer-phone').value.trim(); 
         const customerAddress = document.getElementById('customer-address').value.trim();
 
         if (!customerName || !customerPhone || !customerAddress) {
@@ -57,14 +57,22 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // 3. Assemble the WhatsApp Message (NOW INCLUDING PHONE NUMBER)
+        // 3. Assemble the WhatsApp Message (CLEANER FORMAT)
         let message = `*NEW WEBSITE ORDER*%0A%0A`;
+        
+        // CUSTOMER INFO BLOCK
+        message += `*Customer Details:*%0A`;
         message += `Name: ${customerName}%0A`;
-        message += `Phone: ${customerPhone}%0A`; // Included in the message
-        message += `Address: ${customerAddress}%0A%0A`;
-        message += `*Order Details:*%0A${orderDetails}%0A`;
+        message += `Phone: ${customerPhone}%0A`; 
+        message += `Address: ${customerAddress}%0A%0A`; // Double newline to separate blocks
+
+        // ORDER DETAILS BLOCK
+        message += `*Order Items:*%0A`;
+        message += `${orderDetails}%0A`; // The order details already end with a newline
+
+        // PAYMENT AND FINAL INSTRUCTIONS BLOCK
         message += bankDetails; 
-        message += `Please confirm the total cost and delivery details.`;
+        message += `*Please confirm the total cost and delivery details.*`;
 
         // Encode the message to ensure all characters are URL safe
         const encodedMessage = encodeURIComponent(message);
