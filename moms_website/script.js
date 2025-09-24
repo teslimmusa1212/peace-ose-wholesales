@@ -20,9 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // CRITICAL: YOUR WHATSAPP NUMBER
     const whatsappNumber = '2348078586366'; 
 
-    // CRITICAL: FINAL UPDATED BANK DETAILS
-    const bankDetails = "*PAYMENT DETAILS:* Please make a bank transfer to confirm your order.%0A*Bank Name:* Zenith Bank%0A*Account Name:* AHMED MUMA S GLOBAL INVESTMENT LTD%0A*Account Number:* 1040990755%0A%0A";
-
     form.addEventListener('submit', function(e) {
         e.preventDefault();
 
@@ -47,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (quantity > 0) {
                 hasOrder = true;
                 const productName = input.closest('.product-item-card').getAttribute('data-product-name');
-                orderDetails += `${quantity} x ${productName}%0A`; // %0A is a newline in WhatsApp URL
+                orderDetails += `${quantity} x ${productName}\n`; 
             }
         });
 
@@ -57,24 +54,23 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // 3. Assemble the WhatsApp Message (CLEANER FORMAT)
-        let message = `*NEW WEBSITE ORDER*%0A%0A`;
+        // 3. Assemble the WhatsApp Message (CLEAN MESSAGE SENT TO SELLER)
+        let message = `*NEW WEBSITE ORDER*\n\n`;
         
         // CUSTOMER INFO BLOCK
-        message += `*Customer Details:*%0A`;
-        message += `Name: ${customerName}%0A`;
-        message += `Phone: ${customerPhone}%0A`; 
-        message += `Address: ${customerAddress}%0A%0A`; // Double newline to separate blocks
+        message += `*Customer Details:*\n`;
+        message += `Name: ${customerName}\n`;
+        message += `Phone: ${customerPhone}\n`; 
+        message += `Address: ${customerAddress}\n\n`;
 
         // ORDER DETAILS BLOCK
-        message += `*Order Items:*%0A`;
-        message += `${orderDetails}%0A`; // The order details already end with a newline
+        message += `*Order Items:*\n`;
+        message += `${orderDetails}\n`; 
 
-        // PAYMENT AND FINAL INSTRUCTIONS BLOCK
-        message += bankDetails; 
-        message += `*Please confirm the total cost and delivery details.*`;
+        // FINAL INSTRUCTIONS TO SELLER
+        message += `*Awaiting your price confirmation and delivery instructions.*`;
 
-        // Encode the message to ensure all characters are URL safe
+        // Encode the ENTIRE message
         const encodedMessage = encodeURIComponent(message);
 
         // 4. Create the final WhatsApp URL
@@ -83,12 +79,17 @@ document.addEventListener('DOMContentLoaded', () => {
         // 5. Open WhatsApp
         window.open(whatsappURL, '_blank');
 
-        // 6. Reset Form (Optional but good practice)
-        form.reset();
-        statusMessage.textContent = 'Order message generated! Check your WhatsApp.';
+        // 6. Provide Payment Details Separately (VISIBLE ONLY TO CUSTOMER)
+        const paymentDetails = `\n\n*Payment Details for Customer:*\nBank Name: Zenith Bank\nAccount Name: AHMED MUMA S GLOBAL INVESTMENT LTD\nAccount Number: 1040990755\n\n*Please confirm total cost with the seller before making any transfer.*`;
+        
+        // Display payment details to the customer on the website after the message is sent
+        statusMessage.textContent = 'Order message generated! Check your WhatsApp to send the order.' + paymentDetails;
         statusMessage.style.color = 'green';
         setTimeout(() => {
             statusMessage.textContent = '';
-        }, 5000);
+        }, 15000); // Keep the success message visible longer for payment details
+
+        // Reset Form
+        form.reset();
     });
 });
